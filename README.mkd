@@ -1,6 +1,6 @@
 ### Vim ConqueShell REPL plugin
         
-        This is plugins makes really easy sending input/reading output from
-        REPLs through vim.
+  This is plugins makes really easy sending input/reading output from
+  REPLs through vim.
 
 
