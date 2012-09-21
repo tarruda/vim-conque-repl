@@ -20,7 +20,7 @@ Bundle 'tarruda/vim-conque-repl'
 ### Usage
 
   This plugin provides some commands that makes simple running REPLs
-through ConqueShell. With the default configuration <F5> and <F6> are mapped
+through ConqueShell. With the default configuration F5 and F6 are mapped
 respectively, but only if they are not mapped yet. The mappings can be
 customized by setting g:conque_repl_send_key and g:conque_repl_send_buffer_key
 in your vimrc.
@@ -41,8 +41,8 @@ accepts commands interactively.
 
   - If in normal or insert mode, it will send the entire buffer to the repl.
 
-  Unlike the default keys ConqueShell maps for sending text, these leave the
-original buffers focused and with text selected, transforming vim into a
+  Unlike the default ConqueShell commands for sending text, these leave the
+original buffers focused and with text selected(in case of running in visual mode), transforming vim into a
 nice multi line command editor with syntax highlighting/indentation.
 
   It also plays nicely with the <a href="http://www.vim.org/scripts/script.php?script_id=664">scratch.vim plugin</a>.
