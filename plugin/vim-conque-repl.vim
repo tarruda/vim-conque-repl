@@ -1,11 +1,18 @@
-let s:wait = 0
+if !exists('g:conque_repl_send_key')
+  let g:conque_repl_send_key = '<F5>'
+endif
 
+if !exists('g:conque_repl_send_buffer_key')
+  let g:conque_repl_send_buffer_key = '<F6>'
+endif
+
+let s:locked = 0
 " Based on 'conque_term#send_selected'
 fun! s:send_text(mode, all) 
-  if s:sending_text
+  if s:locked
     return
   endif
-  let s:wait = 1
+  let s:locked = 1
   " Conque sets the 'updatetime' option to 50 in order to use the 
   " CursorHold hack to poll for program output and update the terminal
   " buffer.
@@ -62,7 +69,7 @@ fun! s:switch_buffer(buffer_name, mode, saved_updatetime)
       normal! gvl
     endif
   endif
-  let s:wait = 0
+  let s:locked = 0
 endfun
 
 fun! s:after_ui_refresh(F, args)
@@ -80,8 +87,13 @@ command! -range ConqueTermSendSelection :call s:send_text(2, 0)
 command! ConqueTermSendBufferInsert :call s:send_text(0, 1) 
 command! ConqueTermSendBufferNormal :call s:send_text(1, 1) 
 
-inoremap <silent> <F5> <ESC>:ConqueTermSendLineInsert<CR>
-nnoremap <silent> <F5> :ConqueTermSendLineNormal<CR>
-vnoremap <silent> <F5> :ConqueTermSendSelection<CR>
-inoremap <silent> <F6> <ESC>:ConqueTermSendBufferInsert<CR>
-nnoremap <silent> <F6> :ConqueTermSendBufferNormal<CR>
+if g:conque_repl_send_key != '' && ! maparg(g:conque_repl_send_key)
+  exe 'inoremap <silent>' g:conque_repl_send_key '<ESC>:ConqueTermSendLineInsert<CR>'
+  exe 'nnoremap <silent>' g:conque_repl_send_key ':ConqueTermSendLineNormal<CR>'
+  exe 'vnoremap <silent>' g:conque_repl_send_key ':ConqueTermSendSelection<CR>'
+en
+
+if g:conque_repl_send_buffer_key != '' && ! maparg(g:conque_repl_send_buffer_key)
+  exe 'inoremap <silent>' g:conque_repl_send_buffer_key '<ESC>:ConqueTermSendBufferInsert<CR>'
+  exe 'nnoremap <silent>' g:conque_repl_send_buffer_key ':ConqueTermSendBufferNormal<CR>'
+en
